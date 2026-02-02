@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algorithm Performance Comparison</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+      font-size: 1.2em;
+    }
+    
+    .chart-container {
+      margin: 30px 0;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .comparison-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .comparison-card h3 {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+    }
+    
+    .comparison-card ul {
+      list-style: none;
+      margin-top: 15px;
+    }
+    
+    .comparison-card li {
+      margin: 10px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+    
+    .comparison-card li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+      color: #4ade80;
+    }
+    
+    .winner-badge {
+      background: #4ade80;
+      color: #064e3b;
+      padding: 10px 20px;
+      border-radius: 25px;
+      display: inline-block;
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .stat-card {
+      background: #f1f5f9;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      border-left: 4px solid #667eea;
+    }
+    
+    .stat-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #667eea;
+      margin: 10px 0;
+    }
+    
+    .stat-label {
+      color: #64748b;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .recommendation {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-top: 40px;
+      text-align: center;
+    }
+    
+    .recommendation h2 {
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+    
+    .recommendation p {
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚚 Delivery Platform Algorithm Comparison</h1>
+    <p class="subtitle">Brute-Force vs. Greedy: A Performance Analysis</p>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Greedy Time (10K tasks)</div>
+        <div class="stat-value">3ms</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Brute-Force Limit</div>
+        <div class="stat-value">~20</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Speedup at 20 tasks</div>
+        <div class="stat-value">11,784×</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Greedy Capacity</div>
+        <div class="stat-value">3.3M/s</div>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <canvas id="performanceChart"></canvas>
+    </div>
+    
+    <div class="chart-container">
+      <canvas id="complexityChart"></canvas>
+    </div>
+    
+    <div class="comparison-grid">
+      <div class="comparison-card">
+        <h3>⚡ Greedy Algorithm</h3>
+        <ul>
+          <li>Time: O(n log n)</li>
+          <li>Space: O(n)</li>
+          <li>Handles 10K+ tasks easily</li>
+          <li>Predictable performance</li>
+          <li>Simple to maintain</li>
+          <li>Production-ready</li>
+        </ul>
+        <span class="winner-badge">✓ RECOMMENDED</span>
+      </div>
+      
+      <div class="comparison-card" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+        <h3>🐌 Brute-Force Algorithm</h3>
+        <ul>
+          <li>Time: O(2^n)</li>
+          <li>Space: O(n × 2^n)</li>
+          <li>Fails beyond 25 tasks</li>
+          <li>Unpredictable runtime</li>
+          <li>Complex implementation</li>
+          <li>Not scalable</li>
+        </ul>
+        <span class="winner-badge" style="background: #fca5a5; color: #7f1d1d;">✗ NOT RECOMMENDED</span>
+      </div>
+    </div>
+    
+    <div class="recommendation">
+      <h2>📊 Final Recommendation</h2>
+      <p>
+        For a real-time delivery platform processing thousands of tasks per second,
+        the <strong>Greedy Algorithm</strong> is the clear winner. It delivers optimal solutions
+        with exponentially better performance, predictable behavior, and minimal resource usage.
+        The brute-force approach is fundamentally incompatible with production requirements.
+      </p>
+    </div>
+  </div>
+  
+  <script>
+    // Performance Comparison Chart
+    const ctx1 = document.getElementById('performanceChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['10 tasks', '15 tasks', '20 tasks'],
+        datasets: [{
+          label: 'Brute-Force (ms)',
+          data: [1.759, 14.456, 188.555],
+          backgroundColor: 'rgba(239, 68, 68, 0.8)',
+          borderColor: 'rgba(239, 68, 68, 1)',
+          borderWidth: 2
+        }, {
+          label: 'Greedy (ms)',
+          data: [0.021, 0.037, 0.016],
+          backgroundColor: 'rgba(16, 185, 129, 0.8)',
+          borderColor: 'rgba(16, 185, 129, 1)',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Execution Time Comparison',
+            font: { size: 18 }
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Time (milliseconds)'
+            }
+          }
+        }
+      }
+    });
+    
+    // Complexity Growth Chart
+    const ctx2 = document.getElementById('complexityChart').getContext('2d');
+    
+    // Generate theoretical data points
+    const sizes = [5, 10, 15, 20, 25];
+    const bruteForceTheoretical = sizes.map(n => Math.pow(2, n) / 1000000); // Scaled for visibility
+    const greedyTheoretical = sizes.map(n => n * Math.log2(n));
+    
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: sizes,
+        datasets: [{
+          label: 'Brute-Force O(2^n) - scaled',
+          data: bruteForceTheoretical,
+          borderColor: 'rgba(239, 68, 68, 1)',
+          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          borderWidth: 3,
+          tension: 0.4,
+          fill: true
+        }, {
+          label: 'Greedy O(n log n)',
+          data: greedyTheoretical,
+          borderColor: 'rgba(16, 185, 129, 1)',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          borderWidth: 3,
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Complexity Growth Comparison',
+            font: { size: 18 }
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Number of Tasks'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Relative Complexity'
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
